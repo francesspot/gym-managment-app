@@ -8,12 +8,15 @@ namespace gym_managment_app.modele
 {
     internal class Trener : Osoba
     {
+        private static int ID = 1;
+        public int Id { get; }
         public string Specjalizacja { get; }
 
         public List<Klient> Klienci { get; private set; } = new List<Klient>();
         public Trener(string imie, string nazwisko, char plec, int wiek, string pesel, string nr_tel, string specjalizacja)
             : base(imie, nazwisko, plec, wiek, pesel, nr_tel)
         {
+            Id = ID++;
             Specjalizacja = specjalizacja;
         }
 
@@ -37,7 +40,7 @@ namespace gym_managment_app.modele
 
         public override string GetInfo()
         {
-            return $"Trener: {Imie} {Nazwisko} Specjalizacja: {Specjalizacja}";
+            return $"Trener [ID={Id}]: {Imie} {Nazwisko}, Wiek: {Wiek}, Płeć: {Plec}, PESEL: {Pesel}, Nr Tel: {Nr_Tel}, Specjalizacja: {Specjalizacja}";
         }
     }
 }

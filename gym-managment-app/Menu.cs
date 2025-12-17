@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using gym_managment_app.modele;
 using gym_managment_app.treningi;
 using gym_managment_app.wyjatki;
+using gym_managment_app.pliki;
 
 namespace gym_managment_app
 {
@@ -21,12 +22,15 @@ namespace gym_managment_app
             while (dziala)
             {
                 Console.WriteLine("\n=== Menu Siłowni ===");
-                Console.WriteLine("1. Dodaj trenera");
-                Console.WriteLine("2. Dodaj klienta");
+                Console.WriteLine("1. Dodaj klienta");
+                Console.WriteLine("2. Dodaj trenera");
                 Console.WriteLine("3. Wykup karnet dla klienta");
                 Console.WriteLine("4. Dodaj trening klientowi");
                 Console.WriteLine("5. Wyświetl klientów trenera");
                 Console.WriteLine("6. Wyświetl treningi klienta");
+                Console.WriteLine("7. Wczytaj klientów z pliku");
+                Console.WriteLine("8. Wczytaj trenerów z pliku");
+                Console.WriteLine("9. Zapisz wszystkie treningi do pliku");
                 Console.WriteLine("0. Wyjście");
                 Console.Write("Wybierz opcję: ");
 
@@ -36,10 +40,10 @@ namespace gym_managment_app
                 switch (wybor)
                 {
                     case "1":
-                        DodajTrenera();
+                        DodajKlienta();
                         break;
                     case "2":
-                        DodajKlienta();
+                        DodajTrenera();
                         break;
                     case "3":
                         WykupKarnet();
@@ -52,6 +56,37 @@ namespace gym_managment_app
                         break;
                     case "6":
                         PokazTreningiKlienta();
+                        break;
+                    case "7":
+                        Console.Write("Podaj nazwę pliku z klientami: ");
+                        string plikKlienci = Console.ReadLine()!;
+
+                        if (string.IsNullOrWhiteSpace(plikKlienci))
+                        {
+                            Console.WriteLine("Nie podano nazwy pliku.");
+                            return;
+                        }
+
+                        WczytywaniePlikow.WczytajKlientowZPliku(plikKlienci, klienci);
+                        Console.WriteLine("Wczytano klientów z pliku.");
+                        break;
+                    case "8":
+                        Console.Write("Podaj nazwę pliku z trenerami: ");
+                        string plikTrenerzy = Console.ReadLine()!;
+
+                        if (string.IsNullOrWhiteSpace(plikTrenerzy))
+                        {
+                            Console.WriteLine("Nie podano nazwy pliku.");
+                            return;
+                        }
+
+                        WczytywaniePlikow.WczytajTrenerowZPliku(plikTrenerzy, trenerzy);
+                        Console.WriteLine("Wczytano trenerów z pliku.");
+                        break;
+
+                    case "9":
+                        var wszystkieTreningi = ZapiszWszystkieTreningi();
+                        ZapisywaniePlikow.ZapiszTreningidoPliku("treningi.txt", wszystkieTreningi);
                         break;
                     case "0":
                         dziala = false;
@@ -173,7 +208,6 @@ namespace gym_managment_app
                 return;
             }
 
-            // === Wybór klienta ===
             Console.WriteLine("Wybierz klienta:");
             for (int i = 0; i < klienci.Count; i++)
             {
@@ -189,7 +223,22 @@ namespace gym_managment_app
 
             Klient klient = klienci[klientIndex - 1];
 
-            // === Wybór trenera ===
+            try
+            {
+                klient.WejdzNaSilownie();
+            }
+            catch (BrakKarnetuException ex)
+            {
+                Console.WriteLine($"Nie można dodać treningu dla tego klienta, ponieważ: {ex.Message}");
+                return;
+            }
+            catch (KarnetWygaslException ex)
+            {
+                Console.WriteLine($"Nie można dodać treningu dla tego klienta, ponieważ: {ex.Message}");
+                return;
+            }
+
+
             Console.WriteLine("Wybierz trenera:");
             for (int i = 0; i < trenerzy.Count; i++)
             {
@@ -205,7 +254,6 @@ namespace gym_managment_app
 
             Trener trener = trenerzy[trenerIndex - 1];
 
-            // === Wybór rodzaju treningu ===
             Console.WriteLine("Wybierz rodzaj treningu:");
 
             RodzajTreningu[] rodzaje = Enum.GetValues<RodzajTreningu>();
@@ -223,7 +271,6 @@ namespace gym_managment_app
 
             RodzajTreningu typ = rodzaje[rodzajIndex - 1];
 
-            // === Czas trwania ===
             Console.Write("Podaj czas trwania treningu (minuty): ");
             if (!int.TryParse(Console.ReadLine(), out int czas) || czas <= 0)
             {
@@ -231,16 +278,30 @@ namespace gym_managment_app
                 return;
             }
 
-            // === Tworzenie treningu ===
+            Console.Write("Podaj datę i godzinę treningu (RRRR-MM-DD GG:MM): ");
+            string? data = Console.ReadLine();
+            if (!DateTime.TryParseExact(data, "yyyy-MM-dd HH:mm",
+                                        null, System.Globalization.DateTimeStyles.None,
+                                        out DateTime dataTreningu))
+            {
+                Console.WriteLine("Nieprawidłowy format daty.");
+                return;
+            }
+
             Trening trening = new Trening(
                 klient,
-                DateTime.Now,
+                dataTreningu,
                 typ,
                 czas,
                 trener
             );
 
             klient.DodajTrening(trening);
+
+            if (!trener.Klienci.Contains(klient))
+            {
+                trener.DodajKlienta(klient);
+            }
 
             Console.WriteLine("Dodano trening!");
         }
@@ -294,6 +355,16 @@ namespace gym_managment_app
             if (id >= 0 && id < trenerzy.Count)
                 return trenerzy[id];
             return null;
+        }
+
+        static List<Trening> ZapiszWszystkieTreningi()
+        {
+            List<Trening> wszystkieTreningi = new List<Trening>();
+            foreach (var klient in klienci)
+            {
+                wszystkieTreningi.AddRange(klient.Treningi);
+            }
+            return wszystkieTreningi;
         }
     }
 }

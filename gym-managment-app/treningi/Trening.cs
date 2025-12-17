@@ -26,7 +26,7 @@ namespace gym_managment_app.treningi
 
         public string GetInfo()
         {
-            return $"Trening: {RodzajTreningu}, Data: {DataTreningu}, Czas trwania: {CzasTrwaniaWMinutach} minut, Trener: {TrenerProwadzacy.Imie} {TrenerProwadzacy.Nazwisko}";
+            return $"Trening: {RodzajTreningu}, Data: {DataTreningu:yyyy-MM-dd HH:mm}, Czas trwania: {CzasTrwaniaWMinutach} minut, Trener: {TrenerProwadzacy.Imie} {TrenerProwadzacy.Nazwisko}";
         }
 
     }

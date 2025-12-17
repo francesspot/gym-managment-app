@@ -22,7 +22,7 @@ namespace gym_managment_app.modele
 
         public bool CzyWazny()
         {
-            return DateTime.Now <= DataWaznosci;
+            return Oplacony && DateTime.Now <= DataWaznosci;
         }
 
         public int IleDniZostalo()

@@ -11,12 +11,15 @@ namespace gym_managment_app.modele
 {
     internal class Klient : Osoba
     {
+        private static int ID = 1;
+        public int Id { get; }
         public Karnet? Karnet { get; private set; }
         public List<Trening> Treningi { get; private set; } = new List<Trening>();
 
         public Klient(string imie, string nazwisko, char plec, int wiek, string pesel, string nr_tel)
             : base(imie, nazwisko, plec, wiek, pesel, nr_tel)
         {
+            Id = ID++;
         }
 
         public void WykupKarnet(Karnet karnet)
@@ -36,7 +39,7 @@ namespace gym_managment_app.modele
 
         public override string GetInfo()
         {
-            return $"Klient: {Imie} {Nazwisko}, Wiek: {Wiek}, Płeć: {Plec}, PESEL: {Pesel}, Nr Tel: {Nr_Tel} ";
+            return $"Klient [ID={Id}]: {Imie} {Nazwisko}, Wiek: {Wiek}, Płeć: {Plec}, PESEL: {Pesel}, Nr Tel: {Nr_Tel} ";
         }
 
         public void DodajTrening(Trening trening)
@@ -51,7 +54,6 @@ namespace gym_managment_app.modele
                 Console.WriteLine("Brak zapisanych treningów.");
                 return;
             }
-
 
             foreach (var trening in Treningi)
             {
