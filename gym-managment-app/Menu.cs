@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using gym_managment_app.modele;
 using gym_managment_app.treningi;
 using gym_managment_app.wyjatki;

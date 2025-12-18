@@ -7,7 +7,7 @@ namespace gym_managment_app
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Menu menu = new Menu();
             menu.PokazMenu();
