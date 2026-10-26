@@ -6,16 +6,16 @@
 
 > 🎓 Projekt z kursu **C# INIT 2025** koła naukowego **KREDEK** (Politechnika Wrocławska)
 
-Konsolowa aplikacja dla siłowni: klienci, trenerzy, karnety i treningi w jednym miejscu. 💪 Projekt był okazją, żeby porządnie przećwiczyć programowanie obiektowe w C#.
+Konsolowa aplikacja do zarządzania siłownią: klientami, trenerami, karnetami i treningami. Nacisk położony na programowanie obiektowe w C#.
 
 ## ✨ Funkcje
 
-- 👤 Dodawanie **klientów** i **trenerów** — ręcznie albo z pliku (bez duplikatów po PESEL-u)
-- 🎟️ **Karnety**: miesięczny, roczny i studencki — każdy z własną ceną i datą ważności
-- 🏃 **Treningi** — data, rodzaj (siłowy, cardio, joga, crossfit, pływanie i inne), czas trwania i trener
-- 🚫 Nie da się dodać treningu bez ważnego karnetu — pilnują tego **własne wyjątki** (`BrakKarnetuException`, `KarnetWygaslException`)
-- 📋 Lista klientów trenera i historia treningów klienta
-- 💾 Zapis treningów do pliku
+- Dodawanie **klientów** i **trenerów** — ręcznie albo z pliku (bez duplikatów po PESEL-u)
+- **Karnety**: miesięczny, roczny i studencki — każdy z własną ceną i datą ważności
+- **Treningi** — data, rodzaj (siłowy, cardio, joga, crossfit, pływanie i inne), czas trwania i trener
+- Nie da się dodać treningu bez ważnego karnetu — pilnują tego **własne wyjątki** (`BrakKarnetuException`, `KarnetWygaslException`)
+- Lista klientów trenera i historia treningów klienta
+- Zapis treningów do pliku
 
 ## 🧩 Model obiektowy
 
@@ -28,7 +28,7 @@ Dziedziczenie, klasy abstrakcyjne, polimorfizm (`GetInfo()`), enumy i własne wy
 
 ## 🛠️ Technologie
 
-C# · .NET 8 · aplikacja konsolowa
+C# ·.NET 8 · aplikacja konsolowa
 
 ## 🚀 Uruchomienie
 
