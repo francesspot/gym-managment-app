@@ -1,55 +1,38 @@
-**Polski** | [English](README.en.md)
+🇵🇱 **Polski** | 🇬🇧 [English](README.en.md)
 
-# Aplikacja do zarządzania siłownią
+# 🏋️ Aplikacja do zarządzania siłownią
 
-Konsolowa aplikacja w C# (.NET 8) do zarządzania siłownią: klientami, trenerami, karnetami i treningami. Projekt skupia się na programowaniu obiektowym — dziedziczeniu, klasach abstrakcyjnych, polimorfizmie i własnych wyjątkach.
+![C#](https://img.shields.io/badge/C%23-512BD4?logo=dotnet&logoColor=white) ![.NET 8](https://img.shields.io/badge/.NET_8-512BD4?logo=dotnet&logoColor=white)
 
-## Funkcje
+> 🎓 Projekt z kursu **C# INIT 2025** koła naukowego **KREDEK** (Politechnika Wrocławska)
 
-- Dodawanie klientów i trenerów (ręcznie lub z pliku tekstowego).
-- Wykupienie karnetu dla klienta — **miesięczny** (120 zł, ważny miesiąc), **roczny** (1000 zł, ważny rok) lub **studencki** (80 zł, ważny miesiąc).
-- Dodanie treningu klientowi: data, rodzaj, czas trwania i trener. Przed dodaniem program sprawdza, czy klient ma karnet i czy nie wygasł.
-- Wyświetlanie klientów trenera i historii treningów klienta.
-- Zapis wszystkich treningów do `treningi.txt`.
+Konsolowa aplikacja dla siłowni: klienci, trenerzy, karnety i treningi w jednym miejscu. 💪 Projekt był okazją, żeby porządnie przećwiczyć programowanie obiektowe w C#.
 
-Dostępne rodzaje treningu: siłowy, cardio, funkcjonalny, joga, pilates, HIIT, taniec, stretching, crossfit, pływanie.
+## ✨ Funkcje
 
-## Model obiektowy
+- 👤 Dodawanie **klientów** i **trenerów** — ręcznie albo z pliku (bez duplikatów po PESEL-u)
+- 🎟️ **Karnety**: miesięczny, roczny i studencki — każdy z własną ceną i datą ważności
+- 🏃 **Treningi** — data, rodzaj (siłowy, cardio, joga, crossfit, pływanie i inne), czas trwania i trener
+- 🚫 Nie da się dodać treningu bez ważnego karnetu — pilnują tego **własne wyjątki** (`BrakKarnetuException`, `KarnetWygaslException`)
+- 📋 Lista klientów trenera i historia treningów klienta
+- 💾 Zapis treningów do pliku
+
+## 🧩 Model obiektowy
 
 ```
-Osoba (abstrakcyjna)        Karnet (abstrakcyjny)
-├── Klient                  ├── KarnetMiesieczny
-└── Trener                  ├── KarnetRoczny
-                            └── KarnetStudencki
-Trening        – klient, trener, data, rodzaj (RodzajTreningu), czas trwania
-Wyjątki        – BrakKarnetuException, KarnetWygaslException
+Osoba (abstrakcyjna)  ──► Klient, Trener
+Karnet (abstrakcyjny) ──► KarnetMiesieczny, KarnetRoczny, KarnetStudencki
 ```
 
-## Format plików wejściowych
+Dziedziczenie, klasy abstrakcyjne, polimorfizm (`GetInfo()`), enumy i własne wyjątki.
 
-Wartości oddzielone spacjami, jedna osoba w wierszu.
+## 🛠️ Technologie
 
-Klienci:
-```
-imie nazwisko plec wiek PESEL telefon
-Jan Kowalski M 25 01234567890 500600700
-```
+C# · .NET 8 · aplikacja konsolowa
 
-Trenerzy (ostatnie pole to specjalizacja):
-```
-imie nazwisko plec wiek PESEL telefon specjalizacja
-Anna Nowak K 30 93010112345 600700800 Joga
-```
-
-Duplikaty (ten sam PESEL) są pomijane przy wczytywaniu.
-
-## Kompilacja i uruchomienie
-
-Wymagany [.NET 8 SDK](https://dotnet.microsoft.com/download).
+## 🚀 Uruchomienie
 
 ```bash
 cd gym-managment-app
 dotnet run
 ```
-
-Można też otworzyć `gym-managment-app.sln` w Visual Studio.
